@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.myapplication.data.MockData
 import com.example.myapplication.domain.Subscription
+import com.example.myapplication.domain.actualNextDate
 import com.example.myapplication.R
 import com.example.myapplication.ui.components.DashboardCard
 import com.example.myapplication.ui.components.SubscriptionCard
@@ -37,6 +38,10 @@ fun MainScreen(
     onSubscriptionClick: (Int) -> Unit = {},
     onAddClick: () -> Unit = {}
 ) {
+    val sortedSubscriptions = subscriptions.sortedBy {
+        actualNextDate(it.nextPaymentDate, it.periodicity)
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -78,7 +83,7 @@ fun MainScreen(
                 DashboardCard(subscriptions = subscriptions)
             }
 
-            items(subscriptions, key = { it.id }) { subscription ->
+            items(sortedSubscriptions, key = { it.id }) { subscription ->
                 SubscriptionCard(
                     subscription = subscription,
                     onClick = { onSubscriptionClick(subscription.id) }
