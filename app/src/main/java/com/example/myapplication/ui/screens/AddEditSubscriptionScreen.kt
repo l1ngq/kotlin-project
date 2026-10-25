@@ -248,7 +248,7 @@ fun AddEditSubscriptionScreen(
             Button(
                 onClick = {
                     val result = Subscription(
-                        id = subscriptionToEdit?.id ?: (1..100000).random(),
+                        id = subscriptionToEdit?.id ?: 0,
                         title = title,
                         cost = costText.toIntOrNull() ?: 0,
                         currency = currency,
