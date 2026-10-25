@@ -45,6 +45,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import com.example.myapplication.R
 import com.example.myapplication.domain.Subscription
+import com.example.myapplication.ui.components.periodLabel
+import com.example.myapplication.ui.components.reminderLabel
 import com.example.myapplication.ui.components.subscriptionCategories
 import com.example.myapplication.ui.theme.Dark
 import com.example.myapplication.ui.theme.MyApplicationTheme
@@ -57,16 +59,13 @@ fun AddEditSubscriptionScreen(
     onSave: (Subscription) -> Unit = {},
     onBack: () -> Unit = {}
 ) {
-    val defaultPeriod = stringResource(R.string.period_monthly)
-    val defaultReminder = stringResource(R.string.reminder_1_day_before)
-
     var title by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.title ?: "") }
     var costText by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.cost?.toString() ?: "") }
     var currency by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.currency ?: "₽") }
-    var periodicity by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.periodicity ?: defaultPeriod) }
+    var periodicity by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.periodicity ?: "monthly") }
     var nextPaymentDate by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.nextPaymentDate ?: "") }
     var isTrial by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.isTrial ?: false) }
-    var remindSetting by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.remindSetting ?: defaultReminder) }
+    var remindSetting by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.remindSetting ?: "one_day_before") }
     var note by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.note ?: "") }
 
     var selectedColor by remember(subscriptionToEdit) {
@@ -75,16 +74,8 @@ fun AddEditSubscriptionScreen(
     var selectedIcon by remember(subscriptionToEdit) { mutableStateOf<String?>(subscriptionToEdit?.iconCategory) }
 
     val availableCurrencies = listOf("₽", "$")
-    val availablePeriods = listOf(
-        stringResource(R.string.period_weekly),
-        stringResource(R.string.period_monthly),
-        stringResource(R.string.period_yearly)
-    )
-    val availableReminders = listOf(
-        stringResource(R.string.reminder_on_day),
-        stringResource(R.string.reminder_1_day_before),
-        stringResource(R.string.reminder_3_days_before)
-    )
+    val availablePeriods = listOf("weekly", "monthly", "yearly")
+    val availableReminders = listOf("on_payment_day", "one_day_before", "three_days_before")
 
     val chipColors = FilterChipDefaults.filterChipColors(
         selectedContainerColor = Dark,
@@ -159,7 +150,7 @@ fun AddEditSubscriptionScreen(
                     FilterChip(
                         selected = periodicity == period,
                         onClick = { periodicity = period },
-                        label = { Text(period, fontSize = 11.sp) },
+                        label = { Text(periodLabel(period), fontSize = 11.sp) },
                         colors = chipColors
                     )
                 }
@@ -232,7 +223,7 @@ fun AddEditSubscriptionScreen(
                     FilterChip(
                         selected = remindSetting == rem,
                         onClick = { remindSetting = rem },
-                        label = { Text(rem, fontSize = 11.sp) },
+                        label = { Text(reminderLabel(rem), fontSize = 11.sp) },
                         colors = chipColors
                     )
                 }

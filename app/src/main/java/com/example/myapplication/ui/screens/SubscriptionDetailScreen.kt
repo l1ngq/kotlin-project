@@ -40,6 +40,8 @@ import com.example.myapplication.R
 import com.example.myapplication.data.MockData
 import com.example.myapplication.domain.Subscription
 import com.example.myapplication.ui.components.iconForCategory
+import com.example.myapplication.ui.components.periodLabel
+import com.example.myapplication.ui.components.reminderLabel
 import com.example.myapplication.ui.theme.Blue
 import com.example.myapplication.ui.theme.Dark
 import com.example.myapplication.ui.theme.Green
@@ -91,6 +93,8 @@ fun SubscriptionDetailScreen(
                 subscription.isTrial -> Purple
                 else -> Green
             }
+            val periodText = periodLabel(subscription.periodicity)
+            val reminderText = reminderLabel(subscription.remindSetting)
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -154,7 +158,7 @@ fun SubscriptionDetailScreen(
                         color = Color.White
                     )
                     Text(
-                        text = subscription.periodicity,
+                        text = periodText,
                         fontSize = 13.sp,
                         color = Color.LightGray
                     )
@@ -246,7 +250,7 @@ fun SubscriptionDetailScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(text = stringResource(R.string.detail_label_period), color = Color.Gray, fontSize = 13.sp)
-                        Text(text = subscription.periodicity, fontWeight = FontWeight.Medium, fontSize = 14.sp)
+                        Text(text = periodText, fontWeight = FontWeight.Medium, fontSize = 14.sp)
                     }
 
                     Row(
@@ -254,7 +258,7 @@ fun SubscriptionDetailScreen(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(text = stringResource(R.string.detail_label_reminder), color = Color.Gray, fontSize = 13.sp)
-                        Text(text = subscription.remindSetting, fontWeight = FontWeight.Medium, fontSize = 14.sp)
+                        Text(text = reminderText, fontWeight = FontWeight.Medium, fontSize = 14.sp)
                     }
 
                     if (subscription.note.isNotBlank()) {
