@@ -30,6 +30,12 @@ import com.example.myapplication.domain.Subscription
 import com.example.myapplication.ui.theme.Dark
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
+private fun monthlyCost(subscription: Subscription): Int = when (subscription.periodicity) {
+    "weekly" -> subscription.cost * 4
+    "yearly" -> subscription.cost / 12
+    else -> subscription.cost
+}
+
 @Composable
 fun DashboardCard(
     subscriptions: List<Subscription>,
@@ -37,19 +43,17 @@ fun DashboardCard(
 ) {
     var isYearly by remember { mutableStateOf(false) }
 
-    val weeklyPeriod = stringResource(R.string.period_weekly)
-    val yearlyPeriod = stringResource(R.string.period_yearly)
-
     val activeSubscriptions = subscriptions.filter { it.isActive }
 
-    val monthlyTotal = activeSubscriptions.sumOf {
-        when (it.periodicity) {
-            weeklyPeriod -> it.cost * 4
-            yearlyPeriod -> it.cost / 12
-            else -> it.cost
-        }
+    val grouped = activeSubscriptions.groupBy { it.currency }
+
+    val totals = grouped.map { entry ->
+        val monthly = entry.value.sumOf { monthlyCost(it) }
+        val total = if (isYearly) monthly * 12 else monthly
+        "$total ${entry.key}"
     }
-    val displayTotal = if (isYearly) monthlyTotal * 12 else monthlyTotal
+
+    val totalLines = if (totals.isEmpty()) listOf("0 ₽") else totals
 
     val activeCount = activeSubscriptions.size
     val trialCount = activeSubscriptions.count { it.isTrial }
@@ -99,12 +103,14 @@ fun DashboardCard(
                 }
             }
 
-            Text(
-                text = "$displayTotal ₽",
-                fontSize = 36.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color.White
-            )
+            totalLines.forEach { line ->
+                Text(
+                    text = line,
+                    fontSize = 36.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
 
             Text(
                 text = stringResource(R.string.dashboard_summary, activeCount, trialCount),
