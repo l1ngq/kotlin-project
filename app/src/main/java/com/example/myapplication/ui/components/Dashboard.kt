@@ -45,7 +45,9 @@ fun DashboardCard(
 
     val activeSubscriptions = subscriptions.filter { it.isActive }
 
-    val grouped = activeSubscriptions.groupBy { it.currency }
+    val paidSubscriptions = activeSubscriptions.filter { !it.isTrial }
+
+    val grouped = paidSubscriptions.groupBy { it.currency }
 
     val totals = grouped.map { entry ->
         val monthly = entry.value.sumOf { monthlyCost(it) }
@@ -55,7 +57,7 @@ fun DashboardCard(
 
     val totalLines = if (totals.isEmpty()) listOf("0 ₽") else totals
 
-    val activeCount = activeSubscriptions.size
+    val activeCount = paidSubscriptions.size
     val trialCount = activeSubscriptions.count { it.isTrial }
 
     val chipColors = FilterChipDefaults.filterChipColors(
