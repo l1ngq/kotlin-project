@@ -45,6 +45,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.res.stringResource
 import com.example.myapplication.R
 import com.example.myapplication.domain.Subscription
+import com.example.myapplication.domain.actualNextDate
+import com.example.myapplication.domain.formatDate
+import com.example.myapplication.domain.parseDate
 import com.example.myapplication.ui.components.periodLabel
 import com.example.myapplication.ui.components.reminderLabel
 import com.example.myapplication.ui.components.subscriptionCategories
@@ -63,7 +66,12 @@ fun AddEditSubscriptionScreen(
     var costText by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.cost?.toString() ?: "") }
     var currency by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.currency ?: "₽") }
     var periodicity by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.periodicity ?: "monthly") }
-    var nextPaymentDate by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.nextPaymentDate ?: "") }
+    val initialDate = if (subscriptionToEdit != null && !subscriptionToEdit.isTrial) {
+        actualNextDate(subscriptionToEdit.nextPaymentDate, subscriptionToEdit.periodicity)
+    } else {
+        subscriptionToEdit?.nextPaymentDate
+    }
+    var nextPaymentDate by remember(subscriptionToEdit) { mutableStateOf(formatDate(initialDate)) }
     var isTrial by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.isTrial ?: false) }
     var remindSetting by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.remindSetting ?: "one_day_before") }
     var note by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.note ?: "") }
@@ -172,6 +180,7 @@ fun AddEditSubscriptionScreen(
                 value = nextPaymentDate,
                 onValueChange = { nextPaymentDate = it },
                 label = { Text(stringResource(if (isTrial) R.string.field_date_trial else R.string.field_date_payment)) },
+                placeholder = { Text("dd.MM.yyyy") },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
@@ -244,9 +253,9 @@ fun AddEditSubscriptionScreen(
                         cost = costText.toIntOrNull() ?: 0,
                         currency = currency,
                         periodicity = periodicity,
-                        nextPaymentDate = nextPaymentDate,
+                        nextPaymentDate = parseDate(nextPaymentDate)!!,
                         isTrial = isTrial,
-                        trialEndDate = if (isTrial) nextPaymentDate else null,
+                        trialEndDate = if (isTrial) parseDate(nextPaymentDate) else null,
                         remindSetting = remindSetting,
                         note = note,
                         color = selectedColor,
@@ -264,7 +273,7 @@ fun AddEditSubscriptionScreen(
                 ),
                 enabled = title.isNotBlank() &&
                     (costText.toIntOrNull() ?: 0) > 0 &&
-                    nextPaymentDate.isNotBlank()
+                    parseDate(nextPaymentDate) != null
             ) {
                 Text(stringResource(R.string.btn_save))
             }

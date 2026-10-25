@@ -39,6 +39,8 @@ import androidx.compose.ui.res.stringResource
 import com.example.myapplication.R
 import com.example.myapplication.data.MockData
 import com.example.myapplication.domain.Subscription
+import com.example.myapplication.domain.actualNextDate
+import com.example.myapplication.domain.formatDate
 import com.example.myapplication.ui.components.iconForCategory
 import com.example.myapplication.ui.components.periodLabel
 import com.example.myapplication.ui.components.reminderLabel
@@ -95,6 +97,11 @@ fun SubscriptionDetailScreen(
             }
             val periodText = periodLabel(subscription.periodicity)
             val reminderText = reminderLabel(subscription.remindSetting)
+            val dateText = if (subscription.isTrial) {
+                formatDate(subscription.trialEndDate ?: subscription.nextPaymentDate)
+            } else {
+                formatDate(actualNextDate(subscription.nextPaymentDate, subscription.periodicity))
+            }
 
             Card(
                 modifier = Modifier.fillMaxWidth(),
@@ -199,8 +206,9 @@ fun SubscriptionDetailScreen(
 
                         Button(
                             onClick = {
+                                val next = actualNextDate(subscription.nextPaymentDate, subscription.periodicity)
                                 onKeepSubscription(
-                                    subscription.copy(isTrial = false, trialEndDate = null, isActive = true)
+                                    subscription.copy(isTrial = false, trialEndDate = null, isActive = true, nextPaymentDate = next)
                                 )
                             },
                             modifier = Modifier.fillMaxWidth(),
@@ -239,7 +247,7 @@ fun SubscriptionDetailScreen(
                             fontSize = 13.sp
                         )
                         Text(
-                            text = if (subscription.isTrial) (subscription.trialEndDate ?: subscription.nextPaymentDate) else subscription.nextPaymentDate,
+                            text = dateText,
                             fontWeight = FontWeight.Medium,
                             fontSize = 14.sp
                         )

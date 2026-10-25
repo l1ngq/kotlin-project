@@ -2,6 +2,7 @@ package com.example.myapplication.domain
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDate
 
 @Entity(tableName = "subscriptions")
 data class Subscription(
@@ -11,9 +12,9 @@ data class Subscription(
     val cost: Int,
     val currency: String = "₽",
     val periodicity: String,
-    val nextPaymentDate: String,
+    val nextPaymentDate: LocalDate,
     val isTrial: Boolean = false,
-    val trialEndDate: String? = null,
+    val trialEndDate: LocalDate? = null,
     val isActive: Boolean = true,
     val remindSetting: String,
     val note: String = "",
