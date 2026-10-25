@@ -37,9 +37,18 @@ fun DashboardCard(
 ) {
     var isYearly by remember { mutableStateOf(false) }
 
+    val weeklyPeriod = stringResource(R.string.period_weekly)
+    val yearlyPeriod = stringResource(R.string.period_yearly)
+
     val activeSubscriptions = subscriptions.filter { it.isActive }
 
-    val monthlyTotal = activeSubscriptions.sumOf { it.cost }
+    val monthlyTotal = activeSubscriptions.sumOf {
+        when (it.periodicity) {
+            weeklyPeriod -> it.cost * 4
+            yearlyPeriod -> it.cost / 12
+            else -> it.cost
+        }
+    }
     val displayTotal = if (isYearly) monthlyTotal * 12 else monthlyTotal
 
     val activeCount = activeSubscriptions.size
