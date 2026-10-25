@@ -1,7 +1,12 @@
 package com.example.myapplication.domain
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "subscriptions")
 data class Subscription(
-    val id: Int,
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val title: String,
     val cost: Int,
     val currency: String = "₽",
