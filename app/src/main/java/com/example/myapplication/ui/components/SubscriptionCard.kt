@@ -26,6 +26,8 @@ import androidx.compose.ui.res.stringResource
 import com.example.myapplication.R
 import com.example.myapplication.data.MockData
 import com.example.myapplication.domain.Subscription
+import com.example.myapplication.domain.actualNextDate
+import com.example.myapplication.domain.formatDate
 import com.example.myapplication.ui.theme.Blue
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Purple
@@ -37,6 +39,7 @@ fun SubscriptionCard(
     modifier: Modifier = Modifier
 ) {
     val icon = iconForCategory(subscription.iconCategory)
+    val nextDate = actualNextDate(subscription.nextPaymentDate, subscription.periodicity)
 
     Card(
         onClick = onClick,
@@ -99,7 +102,7 @@ fun SubscriptionCard(
                     Text(
                         text = stringResource(
                             R.string.card_trial_until,
-                            subscription.trialEndDate ?: subscription.nextPaymentDate
+                            formatDate(subscription.trialEndDate ?: subscription.nextPaymentDate)
                         ),
                         color = Purple,
                         fontSize = 13.sp,
@@ -107,7 +110,7 @@ fun SubscriptionCard(
                     )
                 } else {
                     Text(
-                        text = stringResource(R.string.card_next_payment, subscription.nextPaymentDate),
+                        text = stringResource(R.string.card_next_payment, formatDate(nextDate)),
                         fontSize = 13.sp
                     )
                 }
