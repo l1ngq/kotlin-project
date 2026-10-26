@@ -6,10 +6,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.example.myapplication.data.AppDatabase
-import com.example.myapplication.domain.Subscription
+import com.example.myapplication.domain.actualNextDate
 import com.example.myapplication.ui.screens.AddEditSubscriptionScreen
 import com.example.myapplication.ui.screens.MainScreen
 import com.example.myapplication.ui.screens.SubscriptionDetailScreen
@@ -23,16 +24,18 @@ fun AppRoot() {
 
     val subscriptions by remember(dao) { dao.getAll() }.collectAsState(initial = emptyList())
 
-    var currentScreen by remember { mutableStateOf("main") }
-    var selectedSubscriptionId by remember { mutableStateOf<Int?>(null) }
-    var subscriptionToEdit by remember { mutableStateOf<Subscription?>(null) }
+    var currentScreen by rememberSaveable { mutableStateOf("main") }
+    var selectedSubscriptionId by rememberSaveable { mutableStateOf<Int?>(null) }
+    var editingId by rememberSaveable { mutableStateOf<Int?>(null) }
+
+    val subscriptionToEdit = subscriptions.find { it.id == editingId }
 
     when (currentScreen) {
         "main" -> {
             MainScreen(
                 subscriptions = subscriptions,
                 onAddClick = {
-                    subscriptionToEdit = null
+                    editingId = null
                     currentScreen = "add_edit"
                 },
                 onSubscriptionClick = { id ->
@@ -70,7 +73,7 @@ fun AppRoot() {
                         currentScreen = "main"
                     },
                     onEdit = { sub ->
-                        subscriptionToEdit = sub
+                        editingId = sub.id
                         currentScreen = "add_edit"
                     },
                     onDelete = { id ->
@@ -79,14 +82,21 @@ fun AppRoot() {
                             dao.deleteById(id)
                         }
                     },
-                    onToggleActive = { updatedSub ->
+                    onToggleActive = { sub ->
                         scope.launch {
-                            dao.update(updatedSub)
+                            dao.update(sub.copy(isActive = !sub.isActive))
                         }
                     },
-                    onKeepSubscription = { updatedSub ->
+                    onKeepSubscription = { sub ->
                         scope.launch {
-                            dao.update(updatedSub)
+                            dao.update(
+                                sub.copy(
+                                    isTrial = false,
+                                    trialEndDate = null,
+                                    isActive = true,
+                                    nextPaymentDate = actualNextDate(sub.nextPaymentDate, sub.periodicity)
+                                )
+                            )
                         }
                     }
                 )
