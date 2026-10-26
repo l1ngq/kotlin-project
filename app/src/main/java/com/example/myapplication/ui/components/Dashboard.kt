@@ -27,14 +27,9 @@ import androidx.compose.ui.res.stringResource
 import com.example.myapplication.R
 import com.example.myapplication.data.MockData
 import com.example.myapplication.domain.Subscription
+import com.example.myapplication.domain.totalsByCurrency
 import com.example.myapplication.ui.theme.Dark
 import com.example.myapplication.ui.theme.MyApplicationTheme
-
-private fun monthlyCost(subscription: Subscription): Int = when (subscription.periodicity) {
-    "weekly" -> subscription.cost * 4
-    "yearly" -> subscription.cost / 12
-    else -> subscription.cost
-}
 
 @Composable
 fun DashboardCard(
@@ -43,22 +38,12 @@ fun DashboardCard(
 ) {
     var isYearly by remember { mutableStateOf(false) }
 
-    val activeSubscriptions = subscriptions.filter { it.isActive }
+    val totals = totalsByCurrency(subscriptions, isYearly)
 
-    val paidSubscriptions = activeSubscriptions.filter { !it.isTrial }
+    val totalLines = if (totals.isEmpty()) listOf("0") else totals.map { "${it.value} ${it.key}" }
 
-    val grouped = paidSubscriptions.groupBy { it.currency }
-
-    val totals = grouped.map { entry ->
-        val monthly = entry.value.sumOf { monthlyCost(it) }
-        val total = if (isYearly) monthly * 12 else monthly
-        "$total ${entry.key}"
-    }
-
-    val totalLines = if (totals.isEmpty()) listOf("0 ₽") else totals
-
-    val activeCount = paidSubscriptions.size
-    val trialCount = activeSubscriptions.count { it.isTrial }
+    val activeCount = subscriptions.count { it.isActive && !it.isTrial }
+    val trialCount = subscriptions.count { it.isActive && it.isTrial }
 
     val chipColors = FilterChipDefaults.filterChipColors(
         containerColor = Color.Transparent,
