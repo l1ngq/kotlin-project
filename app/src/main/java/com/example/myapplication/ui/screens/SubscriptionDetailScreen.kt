@@ -205,12 +205,7 @@ fun SubscriptionDetailScreen(
                         )
 
                         Button(
-                            onClick = {
-                                val next = actualNextDate(subscription.nextPaymentDate, subscription.periodicity)
-                                onKeepSubscription(
-                                    subscription.copy(isTrial = false, trialEndDate = null, isActive = true, nextPaymentDate = next)
-                                )
-                            },
+                            onClick = { onKeepSubscription(subscription) },
                             modifier = Modifier.fillMaxWidth(),
                             colors = ButtonDefaults.buttonColors(
                                 containerColor = Dark,
@@ -282,7 +277,7 @@ fun SubscriptionDetailScreen(
             }
 
             Button(
-                onClick = { onToggleActive(subscription.copy(isActive = !subscription.isActive)) },
+                onClick = { onToggleActive(subscription) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.LightGray,
