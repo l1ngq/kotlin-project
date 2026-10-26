@@ -7,6 +7,7 @@
 
     <string name="main_title">Подписки</string>
     <string name="main_fab_add_desc">Добавить подписку</string>
+    <string name="main_empty">Пока нет подписок. Нажмите +, чтобы добавить</string>
 
     <string name="dashboard_total_expenses">Всего расходов</string>
     <string name="dashboard_per_month">В месяц</string>
@@ -21,6 +22,7 @@
     <string name="field_trial_label">Пробный период</string>
     <string name="field_date_trial">Дата окончания триала</string>
     <string name="field_date_payment">Дата следующего платежа</string>
+    <string name="date_hint">dd.MM.yyyy</string>
     <string name="field_color_label">Цвет карточки</string>
     <string name="field_category_label">Категория</string>
     <string name="field_reminder_label">Напоминание</string>
@@ -50,5 +52,6 @@
 
     <string name="cd_back">Назад</string>
     <string name="card_trial_until">Триал: до %1$s</string>
+    <string name="card_trial_expired">Триал истёк</string>
     <string name="card_next_payment">Списание: %1$s</string>
 </resources>

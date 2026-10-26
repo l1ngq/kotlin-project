@@ -28,6 +28,7 @@ import com.example.myapplication.data.MockData
 import com.example.myapplication.domain.Subscription
 import com.example.myapplication.domain.actualNextDate
 import com.example.myapplication.domain.formatDate
+import com.example.myapplication.domain.isTrialExpired
 import com.example.myapplication.ui.theme.Blue
 import com.example.myapplication.ui.theme.MyApplicationTheme
 import com.example.myapplication.ui.theme.Purple
@@ -100,10 +101,14 @@ fun SubscriptionCard(
                     )
                 } else if (subscription.isTrial) {
                     Text(
-                        text = stringResource(
-                            R.string.card_trial_until,
-                            formatDate(subscription.trialEndDate ?: subscription.nextPaymentDate)
-                        ),
+                        text = if (isTrialExpired(subscription)) {
+                            stringResource(R.string.card_trial_expired)
+                        } else {
+                            stringResource(
+                                R.string.card_trial_until,
+                                formatDate(subscription.trialEndDate ?: subscription.nextPaymentDate)
+                            )
+                        },
                         color = Purple,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium
