@@ -41,3 +41,13 @@ fun isTrialExpired(subscription: Subscription): Boolean {
     val end = subscription.trialEndDate ?: subscription.nextPaymentDate
     return end.isBefore(LocalDate.now())
 }
+
+fun needsReminder(subscription: Subscription): Boolean {
+    val days = when (subscription.remindSetting) {
+        "on_payment_day" -> 0
+        "three_days_before" -> 3
+        else -> 1
+    }
+    val date = actualNextDate(subscription.nextPaymentDate, subscription.periodicity)
+    return date == LocalDate.now().plusDays(days.toLong())
+}

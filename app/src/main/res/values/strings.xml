@@ -54,4 +54,7 @@
     <string name="card_trial_until">Триал: до %1$s</string>
     <string name="card_trial_expired">Триал истёк</string>
     <string name="card_next_payment">Списание: %1$s</string>
+
+    <string name="notification_channel">Напоминания</string>
+    <string name="notification_title">Скоро списание</string>
 </resources>

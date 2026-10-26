@@ -1,6 +1,10 @@
 package com.example.myapplication
 
+import android.Manifest
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +14,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import com.example.myapplication.data.AppDatabase
+import com.example.myapplication.data.showReminder
 import com.example.myapplication.domain.actualNextDate
 import com.example.myapplication.ui.screens.AddEditSubscriptionScreen
 import com.example.myapplication.ui.screens.MainScreen
@@ -29,6 +34,18 @@ fun AppRoot() {
     var editingId by rememberSaveable { mutableStateOf<Int?>(null) }
 
     val subscriptionToEdit = subscriptions.find { it.id == editingId }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { }
+
+    LaunchedEffect(Unit) {
+        permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
+
+    LaunchedEffect(subscriptions) {
+        showReminder(context, subscriptions)
+    }
 
     when (currentScreen) {
         "main" -> {
