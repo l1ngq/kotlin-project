@@ -7,6 +7,7 @@
 
     <string name="main_title">Subscriptions</string>
     <string name="main_fab_add_desc">Add subscription</string>
+    <string name="main_empty">No subscriptions yet. Tap + to add one</string>
 
     <string name="dashboard_total_expenses">Total expenses</string>
     <string name="dashboard_per_month">Monthly</string>
@@ -21,6 +22,7 @@
     <string name="field_trial_label">Free trial</string>
     <string name="field_date_trial">Trial end date</string>
     <string name="field_date_payment">Next payment date</string>
+    <string name="date_hint">dd.MM.yyyy</string>
     <string name="field_color_label">Card color</string>
     <string name="field_category_label">Category</string>
     <string name="field_reminder_label">Reminder</string>
@@ -50,5 +52,6 @@
 
     <string name="cd_back">Back</string>
     <string name="card_trial_until">Trial until %1$s</string>
+    <string name="card_trial_expired">Trial expired</string>
     <string name="card_next_payment">Due %1$s</string>
 </resources>

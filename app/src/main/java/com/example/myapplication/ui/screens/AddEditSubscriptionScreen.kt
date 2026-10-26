@@ -180,7 +180,7 @@ fun AddEditSubscriptionScreen(
                 value = nextPaymentDate,
                 onValueChange = { nextPaymentDate = it },
                 label = { Text(stringResource(if (isTrial) R.string.field_date_trial else R.string.field_date_payment)) },
-                placeholder = { Text("dd.MM.yyyy") },
+                placeholder = { Text(stringResource(R.string.date_hint)) },
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = true
             )
