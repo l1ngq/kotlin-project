@@ -54,4 +54,7 @@
     <string name="card_trial_until">Trial until %1$s</string>
     <string name="card_trial_expired">Trial expired</string>
     <string name="card_next_payment">Due %1$s</string>
+
+    <string name="notification_channel">Reminders</string>
+    <string name="notification_title">Upcoming payment</string>
 </resources>
