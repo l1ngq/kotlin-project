@@ -1,6 +1,7 @@
-package com.example.myapplication
+package com.example.myapplication.ui
 
 import android.Manifest
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
@@ -34,6 +35,13 @@ fun AppRoot() {
     var editingId by rememberSaveable { mutableStateOf<Int?>(null) }
 
     val subscriptionToEdit = subscriptions.find { it.id == editingId }
+
+    BackHandler(enabled = currentScreen != "main") {
+        currentScreen = when (currentScreen) {
+            "add_edit" -> if (subscriptionToEdit != null) "detail" else "main"
+            else -> "main"
+        }
+    }
 
     val permissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
