@@ -32,7 +32,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -62,24 +62,24 @@ fun AddEditSubscriptionScreen(
     onSave: (Subscription) -> Unit = {},
     onBack: () -> Unit = {}
 ) {
-    var title by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.title ?: "") }
-    var costText by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.cost?.toString() ?: "") }
-    var currency by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.currency ?: "₽") }
-    var periodicity by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.periodicity ?: "monthly") }
+    var title by rememberSaveable(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.title ?: "") }
+    var costText by rememberSaveable(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.cost?.toString() ?: "") }
+    var currency by rememberSaveable(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.currency ?: "₽") }
+    var periodicity by rememberSaveable(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.periodicity ?: "monthly") }
     val initialDate = if (subscriptionToEdit != null && !subscriptionToEdit.isTrial) {
         actualNextDate(subscriptionToEdit.nextPaymentDate, subscriptionToEdit.periodicity)
     } else {
         subscriptionToEdit?.nextPaymentDate
     }
-    var nextPaymentDate by remember(subscriptionToEdit) { mutableStateOf(formatDate(initialDate)) }
-    var isTrial by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.isTrial ?: false) }
-    var remindSetting by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.remindSetting ?: "one_day_before") }
-    var note by remember(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.note ?: "") }
+    var nextPaymentDate by rememberSaveable(subscriptionToEdit) { mutableStateOf(formatDate(initialDate)) }
+    var isTrial by rememberSaveable(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.isTrial ?: false) }
+    var remindSetting by rememberSaveable(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.remindSetting ?: "one_day_before") }
+    var note by rememberSaveable(subscriptionToEdit) { mutableStateOf(subscriptionToEdit?.note ?: "") }
 
-    var selectedColor by remember(subscriptionToEdit) {
+    var selectedColor by rememberSaveable(subscriptionToEdit) {
         mutableStateOf(subscriptionToEdit?.color ?: subscriptionColorPalette.first())
     }
-    var selectedIcon by remember(subscriptionToEdit) { mutableStateOf<String?>(subscriptionToEdit?.iconCategory) }
+    var selectedIcon by rememberSaveable(subscriptionToEdit) { mutableStateOf<String?>(subscriptionToEdit?.iconCategory) }
 
     val availableCurrencies = listOf("₽", "$")
     val availablePeriods = listOf("weekly", "monthly", "yearly")
