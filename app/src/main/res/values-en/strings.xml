@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">SubTrack</string>
+    <string name="status_active">Active</string>
+    <string name="status_trial">Free Trial</string>
+    <string name="status_paused">Paused</string>
+    <string name="btn_save">Save</string>
+
+    <string name="main_title">Subscriptions</string>
+    <string name="main_fab_add_desc">Add subscription</string>
+    <string name="main_empty">No subscriptions yet. Tap + to add one</string>
+
+    <string name="dashboard_total_expenses">Total expenses</string>
+    <string name="dashboard_per_month">Monthly</string>
+    <string name="dashboard_per_year">Yearly</string>
+    <string name="dashboard_summary">Active: %1$d • Trial: %2$d</string>
+
+    <string name="add_title_new">New Subscription</string>
+    <string name="add_title_edit">Edit Subscription</string>
+    <string name="field_name_label">Service name</string>
+    <string name="field_cost_label">Cost</string>
+    <string name="field_period_label">Billing cycle</string>
+    <string name="field_trial_label">Free trial</string>
+    <string name="field_date_trial">Trial end date</string>
+    <string name="field_date_payment">Next payment date</string>
+    <string name="date_hint">dd.MM.yyyy</string>
+    <string name="field_color_label">Card color</string>
+    <string name="field_category_label">Category</string>
+    <string name="field_reminder_label">Reminder</string>
+    <string name="field_note_label">Note</string>
+
+    <string name="period_weekly">Weekly</string>
+    <string name="period_monthly">Monthly</string>
+    <string name="period_yearly">Yearly</string>
+    <string name="reminder_on_day">On payment day</string>
+    <string name="reminder_1_day_before">1 day before</string>
+    <string name="reminder_3_days_before">3 days before</string>
+
+    <string name="detail_title">Subscription Details</string>
+    <string name="detail_trial_warning_title">Trial Period Control</string>
+    <string name="detail_trial_warning_desc">To avoid unexpected card charges, you can keep the subscription or delete it.</string>
+    <string name="detail_btn_keep">Keep as paid</string>
+    <string name="detail_section_info">Information</string>
+    <string name="detail_label_next_payment">Next payment</string>
+    <string name="detail_label_trial_end">Trial ends</string>
+    <string name="detail_label_period">Cycle</string>
+    <string name="detail_label_reminder">Reminder</string>
+    <string name="detail_label_note">Note</string>
+    <string name="detail_btn_pause">Pause subscription</string>
+    <string name="detail_btn_resume">Resume subscription</string>
+    <string name="detail_btn_edit">Edit</string>
+    <string name="detail_btn_delete">Delete subscription</string>
+
+    <string name="cd_back">Back</string>
+    <string name="card_trial_until">Trial until %1$s</string>
+    <string name="card_trial_expired">Trial expired</string>
+    <string name="card_next_payment">Due %1$s</string>
+
+    <string name="notification_channel">Reminders</string>
+    <string name="notification_title">Upcoming payment</string>
+</resources>

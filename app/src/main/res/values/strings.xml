@@ -1,3 +1,60 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">SubTrack</string>
+    <string name="status_active">Активна</string>
+    <string name="status_trial">Пробный период</string>
+    <string name="status_paused">На паузе</string>
+    <string name="btn_save">Сохранить</string>
+
+    <string name="main_title">Подписки</string>
+    <string name="main_fab_add_desc">Добавить подписку</string>
+    <string name="main_empty">Пока нет подписок. Нажмите +, чтобы добавить</string>
+
+    <string name="dashboard_total_expenses">Всего расходов</string>
+    <string name="dashboard_per_month">В месяц</string>
+    <string name="dashboard_per_year">В год</string>
+    <string name="dashboard_summary">Активно: %1$d • Триал: %2$d</string>
+
+    <string name="add_title_new">Новая подписка</string>
+    <string name="add_title_edit">Редактирование</string>
+    <string name="field_name_label">Название сервиса</string>
+    <string name="field_cost_label">Стоимость</string>
+    <string name="field_period_label">Периодичность оплаты</string>
+    <string name="field_trial_label">Пробный период</string>
+    <string name="field_date_trial">Дата окончания триала</string>
+    <string name="field_date_payment">Дата следующего платежа</string>
+    <string name="date_hint">dd.MM.yyyy</string>
+    <string name="field_color_label">Цвет карточки</string>
+    <string name="field_category_label">Категория</string>
+    <string name="field_reminder_label">Напоминание</string>
+    <string name="field_note_label">Заметка</string>
+
+    <string name="period_weekly">Раз в неделю</string>
+    <string name="period_monthly">Раз в месяц</string>
+    <string name="period_yearly">Раз в год</string>
+    <string name="reminder_on_day">В день оплаты</string>
+    <string name="reminder_1_day_before">За 1 день</string>
+    <string name="reminder_3_days_before">За 3 дня</string>
+
+    <string name="detail_title">Детали подписки</string>
+    <string name="detail_trial_warning_title">Контроль пробного периода</string>
+    <string name="detail_trial_warning_desc">Чтобы сервис не начал списывать деньги неожиданно, вы можете оставить подписку или удалить её.</string>
+    <string name="detail_btn_keep">Оставить</string>
+    <string name="detail_section_info">Информация</string>
+    <string name="detail_label_next_payment">Следующий платёж</string>
+    <string name="detail_label_trial_end">Конец триала</string>
+    <string name="detail_label_period">Периодичность</string>
+    <string name="detail_label_reminder">Напоминание</string>
+    <string name="detail_label_note">Заметка</string>
+    <string name="detail_btn_pause">Поставить на паузу</string>
+    <string name="detail_btn_resume">Возобновить</string>
+    <string name="detail_btn_edit">Редактировать</string>
+    <string name="detail_btn_delete">Удалить подписку</string>
+
+    <string name="cd_back">Назад</string>
+    <string name="card_trial_until">Триал: до %1$s</string>
+    <string name="card_trial_expired">Триал истёк</string>
+    <string name="card_next_payment">Списание: %1$s</string>
+
+    <string name="notification_channel">Напоминания</string>
+    <string name="notification_title">Скоро списание</string>
 </resources>
