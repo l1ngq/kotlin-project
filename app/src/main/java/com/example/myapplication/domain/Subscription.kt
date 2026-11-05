@@ -28,12 +28,20 @@ fun monthlyCost(subscription: Subscription): Int = when (subscription.periodicit
     else -> subscription.cost
 }
 
+fun yearlyCost(subscription: Subscription): Int = when (subscription.periodicity) {
+    "yearly" -> subscription.cost
+    else -> monthlyCost(subscription) * 12
+}
+
 fun totalsByCurrency(subscriptions: List<Subscription>, isYearly: Boolean): Map<String, Int> {
     val paid = subscriptions.filter { it.isActive && !it.isTrial }
     val grouped = paid.groupBy { it.currency }
     return grouped.mapValues { entry ->
-        val monthly = entry.value.sumOf { monthlyCost(it) }
-        if (isYearly) monthly * 12 else monthly
+        if (isYearly) {
+            entry.value.sumOf { yearlyCost(it) }
+        } else {
+            entry.value.sumOf { monthlyCost(it) }
+        }
     }
 }
 
