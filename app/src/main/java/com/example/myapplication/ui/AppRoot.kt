@@ -9,26 +9,21 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import com.example.myapplication.data.AppDatabase
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.showReminder
-import com.example.myapplication.domain.actualNextDate
 import com.example.myapplication.ui.screens.AddEditSubscriptionScreen
 import com.example.myapplication.ui.screens.MainScreen
 import com.example.myapplication.ui.screens.SubscriptionDetailScreen
-import kotlinx.coroutines.launch
 
 @Composable
 fun AppRoot() {
     val context = LocalContext.current
-    val dao = remember { AppDatabase.getInstance(context).subscriptionDao() }
-    val scope = rememberCoroutineScope()
+    val viewModel: SubscriptionViewModel = viewModel()
 
-    val subscriptions by remember(dao) { dao.getAll() }.collectAsState(initial = emptyList())
+    val subscriptions by viewModel.subscriptions.collectAsState(initial = emptyList())
 
     var currentScreen by rememberSaveable { mutableStateOf("main") }
     var selectedSubscriptionId by rememberSaveable { mutableStateOf<Int?>(null) }
@@ -74,14 +69,8 @@ fun AppRoot() {
             AddEditSubscriptionScreen(
                 subscriptionToEdit = subscriptionToEdit,
                 onSave = { subscription ->
-                    scope.launch {
-                        if (subscription.id == 0) {
-                            dao.insert(subscription)
-                        } else {
-                            dao.update(subscription)
-                        }
-                        currentScreen = "main"
-                    }
+                    viewModel.save(subscription)
+                    currentScreen = "main"
                 },
                 onBack = {
                     currentScreen = if (subscriptionToEdit != null) "detail" else "main"
@@ -103,26 +92,13 @@ fun AppRoot() {
                     },
                     onDelete = { id ->
                         currentScreen = "main"
-                        scope.launch {
-                            dao.deleteById(id)
-                        }
+                        viewModel.delete(id)
                     },
                     onToggleActive = { sub ->
-                        scope.launch {
-                            dao.update(sub.copy(isActive = !sub.isActive))
-                        }
+                        viewModel.toggleActive(sub)
                     },
                     onKeepSubscription = { sub ->
-                        scope.launch {
-                            dao.update(
-                                sub.copy(
-                                    isTrial = false,
-                                    trialEndDate = null,
-                                    isActive = true,
-                                    nextPaymentDate = actualNextDate(sub.nextPaymentDate, sub.periodicity)
-                                )
-                            )
-                        }
+                        viewModel.keepAsPaid(sub)
                     }
                 )
             }
