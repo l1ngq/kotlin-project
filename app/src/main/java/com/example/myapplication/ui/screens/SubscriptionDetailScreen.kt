@@ -23,6 +23,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -195,7 +196,7 @@ fun SubscriptionDetailScreen(
                             Text(
                                 text = stringResource(R.string.detail_trial_warning_title),
                                 fontWeight = FontWeight.Bold,
-                                color = Dark
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
 
@@ -238,7 +239,7 @@ fun SubscriptionDetailScreen(
                             text = stringResource(
                                 if (subscription.isTrial) R.string.detail_label_trial_end else R.string.detail_label_next_payment
                             ),
-                            color = Color.Gray,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
                             fontSize = 13.sp
                         )
                         Text(
@@ -252,7 +253,7 @@ fun SubscriptionDetailScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(text = stringResource(R.string.detail_label_period), color = Color.Gray, fontSize = 13.sp)
+                        Text(text = stringResource(R.string.detail_label_period), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
                         Text(text = periodText, fontWeight = FontWeight.Medium, fontSize = 14.sp)
                     }
 
@@ -260,7 +261,7 @@ fun SubscriptionDetailScreen(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
-                        Text(text = stringResource(R.string.detail_label_reminder), color = Color.Gray, fontSize = 13.sp)
+                        Text(text = stringResource(R.string.detail_label_reminder), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
                         Text(text = reminderText, fontWeight = FontWeight.Medium, fontSize = 14.sp)
                     }
 
@@ -269,7 +270,7 @@ fun SubscriptionDetailScreen(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Text(text = stringResource(R.string.detail_label_note), color = Color.Gray, fontSize = 13.sp)
+                            Text(text = stringResource(R.string.detail_label_note), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
                             Text(text = subscription.note, fontWeight = FontWeight.Medium, fontSize = 14.sp)
                         }
                     }
@@ -280,8 +281,8 @@ fun SubscriptionDetailScreen(
                 onClick = { onToggleActive(subscription) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color.LightGray,
-                    contentColor = Dark
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    contentColor = MaterialTheme.colorScheme.onSurface
                 )
             ) {
                 Text(stringResource(if (subscription.isActive) R.string.detail_btn_pause else R.string.detail_btn_resume))
