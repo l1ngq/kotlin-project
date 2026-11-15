@@ -23,7 +23,7 @@ data class Subscription(
 )
 
 fun monthlyCost(subscription: Subscription): Int = when (subscription.periodicity) {
-    "weekly" -> subscription.cost * 4
+    "weekly" -> subscription.cost * 52 / 12
     "yearly" -> subscription.cost / 12
     else -> subscription.cost
 }
