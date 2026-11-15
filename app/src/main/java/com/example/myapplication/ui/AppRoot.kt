@@ -1,6 +1,7 @@
 package com.example.myapplication.ui
 
 import android.Manifest
+import android.content.pm.PackageManager
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -12,8 +13,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapplication.data.showReminder
+import com.example.myapplication.data.scheduleReminders
 import com.example.myapplication.ui.screens.AddEditSubscriptionScreen
 import com.example.myapplication.ui.screens.MainScreen
 import com.example.myapplication.ui.screens.SubscriptionDetailScreen
@@ -43,11 +45,12 @@ fun AppRoot() {
     ) { }
 
     LaunchedEffect(Unit) {
-        permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-    }
-
-    LaunchedEffect(subscriptions) {
-        showReminder(context, subscriptions)
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS)
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            permissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+        }
+        scheduleReminders(context)
     }
 
     when (currentScreen) {

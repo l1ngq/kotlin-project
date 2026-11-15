@@ -13,6 +13,9 @@ interface SubscriptionDao {
     @Query("SELECT * FROM subscriptions")
     fun getAll(): Flow<List<Subscription>>
 
+    @Query("SELECT * FROM subscriptions")
+    suspend fun getAllOnce(): List<Subscription>
+
     @Insert
     suspend fun insert(subscription: Subscription)
 
