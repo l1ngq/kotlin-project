@@ -24,6 +24,7 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
@@ -195,7 +196,11 @@ fun AddEditSubscriptionScreen(
                             .clickable { selectedColor = colorLong }
                             .then(
                                 if (selectedColor == colorLong) {
-                                    Modifier.border(2.dp, Dark, CircleShape)
+                                    Modifier.border(
+                                        2.dp,
+                                        MaterialTheme.colorScheme.onSurface,
+                                        CircleShape
+                                    )
                                 } else Modifier
                             )
                     )
@@ -215,7 +220,11 @@ fun AddEditSubscriptionScreen(
                                 imageVector = category.icon,
                                 contentDescription = category.key,
                                 modifier = Modifier.size(20.dp),
-                                tint = if (selectedIcon == category.key) Color.White else Dark
+                                tint = if (selectedIcon == category.key) {
+                                    Color.White
+                                } else {
+                                    MaterialTheme.colorScheme.onSurface
+                                }
                             )
                         },
                         colors = chipColors
@@ -268,8 +277,8 @@ fun AddEditSubscriptionScreen(
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Dark,
                     contentColor = Color.White,
-                    disabledContainerColor = Color.LightGray,
-                    disabledContentColor = Color.Gray
+                    disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    disabledContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 ),
                 enabled = title.isNotBlank() &&
                     (costText.toIntOrNull() ?: 0) > 0 &&
